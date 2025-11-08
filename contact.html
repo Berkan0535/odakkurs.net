@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Odak Eğitim Kurumları</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dancing Script font linki -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #FF7F00, #FFFFFF, #333333);
+            min-height: 100vh;
+        }
+
+        .purple-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            transform: translateY(-10px);
+        }
+
+        .purple-gradient:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #a855f7 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Dropdown Menu Stili - Desktop */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 8px;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f5f9;
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        /* Hover durumu - 1 saniye gecikme ile */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Mouse çıktığında 1 saniye bekle */
+        .dropdown {
+            transition: all 0.9s ease;
+        }
+
+        .dropdown-content {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            transition-delay: 0s, 0s;
+            /* Açılırken gecikme yok */
+        }
+
+        .dropdown:not(:hover) .dropdown-content {
+            transition-delay: 1s, 1s;
+            /* Kapanırken 1 saniye gecikme */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 4;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Dropdown Stili */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-top: 8px;
+            border-radius: 8px;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-content a {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Student System Button */
+        .student-system-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-system-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .student-system-btn:hover::before {
+            left: 100%;
+        }
+
+        .student-system-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #a855f7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Chevron Rotation */
+        .chevron-rotate {
+            transform: rotate(180deg);
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.4) 30%, transparent 60%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: all 0.15s ease-out;
+            opacity: 0;
+            filter: blur(8px);
+        }
+
+        .glow-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        h2 {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .contact-card {
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .input-field {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .input-field:focus {
+            border-left: 3px solid #FF7F00;
+            box-shadow: 0 5px 15px rgba(255, 127, 0, 0.1);
+        }
+
+        .branch-card {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .branch-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #FF7F00, transparent);
+            transition: all 0.5s ease;
+        }
+
+        .branch-card:hover::before {
+            left: 0;
+        }
+
+        .map-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .map-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .map-label {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, #FF7F00, #FF5500);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(255, 127, 0, 0.3);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .map-container:hover .map-label {
+            padding: 10px 30px;
+            background: linear-gradient(to right, #FF5500, #FF7F00);
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .map-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            transform: translateY(100%);
+            transition: all 0.4s ease;
+        }
+
+        .map-container:hover .map-info {
+            transform: translateY(0);
+        }
+
+        .map-divider {
+            height: 3px;
+            background: linear-gradient(to right, transparent, #FF7F00, transparent);
+            width: 80%;
+            margin: 30px auto;
+            border-radius: 3px;
+        }
+
+        .pulse {
+            display: block;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #FF7F00;
+            cursor: pointer;
+            box-shadow: 0 0 0 rgba(255, 127, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 127, 0, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 127, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 127, 0, 0);
+            }
+        }
+
+        /* Mobil menü öğeleri başlangıçta tamamen gizli olmalı */
+        .mobile-menu-items {
+            display: none;
+            position: fixed;
+            top: 88px;
+            left: 0;
+            right: 0;
+            background-color: white;
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease-in-out;
+            z-index: 49;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu-items.active {
+            display: block;
+            height: auto;
+            max-height: calc(100vh - 88px);
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        /* Responsive düzenlemeler */
+        @media (max-width: 1023px) {
+            .desktop-menu {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .map-frame {
+                height: 250px;
+            }
+
+            .map-label {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+
+            .map-container:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .map-frame {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-orange-100 via-gray-100 to-gray-900">
+    <!-- Navbar - Masaüstü ve Tablet -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+        <a href="index.html">
+            <img src="img/logo.png" alt="Odak Kurs Logo" class="h-14 md:h-20 w-auto">
+        </a>
+        <!-- Masaüstü Menü -->
+        <ul class="hidden lg:flex space-x-4 lg:space-x-8 text-lg font-semibold desktop-menu">
+            <li><a href="index.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Anasayfa</a>
+            </li>
+            <li><a href="misyon.html" class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Misyon
+                    &
+                    Vizyon</a></li>
+            <li><a href="Kurslar.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Kurslar</a>
+            </li>
+            <li><a href="index.html#announcements"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Duyurular</a></li>
+            <li><a href="xx.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Fotoğraflar</a>
+            </li>
+            <div class="dropdown-content">
+                <a href="https://odak.edesis.com/account/login" target="_blank">
+                    <i class="fas fa-graduation-cap mr-2"></i>Kiraz Ortaokul-Lise
+                </a>
+                <a href="https://odaksegem.edesis.com/account/login" target="_blank">
+                    <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Ortaokul
+                </a>
+                <a href="https://odakyks.edesis.com/account/login" target="_blank">
+                    <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Lise
+                </a>
+            </div>
+            </li>
+            <li>
+                <a href="contact.html"
+                    class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-lg transition-all duration-300 hover:from-red-500 hover:to-orange-500 relative overflow-hidden shadow-lg"
+                    id="magic-button">
+                    İletişim
+                    <span class="glow-effect" id="glow"></span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Mobil Menü Butonu -->
+        <div class="lg:hidden mobile-menu">
+            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobil Menü Öğeleri -->
+    <div id="mobile-menu-items" class="mobile-menu-items">
+        <ul class="flex flex-col space-y-4 py-2">
+            <li><a href="index.html"
+                    class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Anasayfa</a></li>
+            <li><a href="misyon.html"
+                    class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Misyon &
+                    Vizyon</a></li>
+            <li><a href="Kurslar.html"
+                    class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Kurslar</a></li>
+            <li><a href="index.html#announcements"
+                    class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Duyurular</a>
+            </li>
+            <li><a href="xx.html"
+                    class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Fotoğraflar</a>
+            </li>
+            <li>
+                <div class="mobile-dropdown">
+                    <a href="#" id="mobile-student-system-btn"
+                        class="student-system-btn block px-4 py-2 rounded-lg transition-all duration-300 flex items-center justify-between">
+                        <span class="relative z-10">Öğrenci Bilgi Sistemi</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300 relative z-10"
+                            id="mobile-chevron"></i>
+                    </a>
+                    <div id="mobile-dropdown-content" class="mobile-dropdown-content">
+                        <a href="https://odak.edesis.com/account/login" target="_blank"
+                            class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                            <i class="fas fa-graduation-cap mr-2"></i>Kiraz Ortaokul-Lise
+                        </a>
+                        <a href="https://odaksegem.edesis.com/account/login" target="_blank"
+                            class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                            <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Ortaokul
+                        </a>
+                        <a href="https://odakyks.edesis.com/account/login" target="_blank"
+                            class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                            <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Lise
+                        </a>
+
+            <li><a href="contact.html"
+                    class="block px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg transition-all duration-300 text-center">İletişim</a>
+            </li>
+    </div>
+    </div>
+    </li>
+    </ul>
+    </div>
+
+    <!-- İletişim Başlığı -->
+    <header class="text-center p-6 sm:p-10 mt-20 sm:mt-28">
+        <h2 class="text-4xl sm:text-6xl font-bold text-gray-800 mb-4">Bize Ulaşın</h2>
+        <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">Sorularınız için bizimle iletişime geçebilir,
+            şubelerimizi
+            ziyaret edebilir veya form aracılığıyla mesaj gönderebilirsiniz.</p>
+    </header>
+
+    <!-- Ana İçerik -->
+    <div class="container mx-auto px-4 py-6 sm:py-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
+            <!-- Sol Taraf - İletişim Bilgileri -->
+            <div class="space-y-6 sm:space-y-8">
+                <!-- Ödemiş Şubesi -->
+                <div class="branch-card bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                    <div class="flex items-center mb-3 sm:mb-4">
+                        <div class="bg-orange-100 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                            <i class="fas fa-map-marker-alt text-orange-500 text-lg sm:text-xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Ödemiş Şubesi</h3>
+                    </div>
+                    <div class="mt-3 sm:mt-4 pl-10 sm:pl-16">
+                        <p class="text-sm sm:text-base text-gray-600 mb-2"><span class="font-semibold">Adres:</span>
+                            Zafer Mahallesi, Şehit
+                            Turan Emeksiz Caddesi No:10-12, Ödemiş/İzmir</p>
+
+                        <div class="mt-3 sm:mt-4">
+                            <a href="https://maps.app.goo.gl/RLfdQHXE6hD4eHVNA" target="_blank"
+                                class="inline-block bg-orange-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 text-sm sm:text-base">
+                                <i class="fas fa-directions mr-1 sm:mr-2"></i> Yol Tarifi Al
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kiraz Şubesi -->
+                <div class="branch-card bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                    <div class="flex items-center mb-3 sm:mb-4">
+                        <div class="bg-orange-100 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                            <i class="fas fa-map-marker-alt text-orange-500 text-lg sm:text-xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Kiraz Şubesi</h3>
+                    </div>
+                    <div class="mt-3 sm:mt-4 pl-10 sm:pl-16">
+                        <p class="text-sm sm:text-base text-gray-600 mb-2"><span class="font-semibold">Adres:</span>
+                            İstiklal Mahallesi,
+                            Halil İbrahim Efendi Caddesi No:18, Kiraz/İzmir</p>
+
+                        <div class="mt-3 sm:mt-4">
+                            <a href="https://maps.app.goo.gl/8QXR5nBn1XjqnxNy9" target="_blank"
+                                class="inline-block bg-orange-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-lg hover:bg-orange-600 transition-all duration-300 text-sm sm:text-base">
+                                <i class="fas fa-directions mr-1 sm:mr-2"></i> Yol Tarifi Al
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Genel İletişim -->
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg contact-card">
+                    <div class="flex items-center mb-3 sm:mb-4">
+                        <div class="bg-orange-100 p-2 sm:p-3 rounded-full mr-3 sm:mr-4">
+                            <i class="fas fa-envelope text-orange-500 text-lg sm:text-xl"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Genel İletişim</h3>
+                    </div>
+                    <div class="mt-3 sm:mt-4 pl-10 sm:pl-16 space-y-3 sm:space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-orange-500 text-base sm:text-lg mr-2 sm:mr-3"></i>
+                            <p class="text-sm sm:text-base text-gray-600">odakegitimltd@gmail.com</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fab fa-whatsapp text-orange-500 text-base sm:text-lg mr-2 sm:mr-3"></i>
+                            <p class="text-sm sm:text-base text-gray-600">+90 (554) 672 35 74</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-orange-500 text-base sm:text-lg mr-2 sm:mr-3"></i>
+                            <p class="text-sm sm:text-base text-gray-600">+90 (232) 572 35 74</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sosyal Medya -->
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 text-center">Sosyal Medya</h3>
+                    <div class="flex justify-center space-x-4 sm:space-x-6">
+                        <a href="https://instagram.com/odak__kurs" target="_blank"
+                            class="social-icon bg-gradient-to-r from-purple-500 to-pink-500 text-white p-3 sm:p-4 rounded-full flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
+                            <i class="fab fa-instagram text-lg sm:text-xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/people/Odak-Kurs/pfbid024i2iVyDrx1tLxXrEeR4JxBVMnUjeePzqPCSBGw5XhtvVyEwHuioZie6De7u3ePuel/?mibextid=wwXIfr&rdid=L30kWnmv79aDpzYL&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1E8pPMqjyj%2F%3Fmibextid%3DwwXIfr"
+                            class="social-icon bg-blue-600 text-white p-3 sm:p-4 rounded-full flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
+                            <i class="fab fa-facebook-f text-lg sm:text-xl"></i>
+                        </a>
+                        <a href="https://wa.me/905546723574"
+                            class="social-icon bg-green-500 text-white p-3 sm:p-4 rounded-full flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12"
+                            target="_blank">
+                            <i class="fab fa-whatsapp text-lg sm:text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Taraf - Konumlarımız (Eski form bölümünün yerine geçti) -->
+            <div class="space-y-10">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-6">Konumlarımız</h3>
+
+                <!-- Ödemiş Konum -->
+                <div class="map-container">
+                    <div class="map-label">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Ödemiş/İzmir
+                    </div>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3133.9661285556913!2d27.9927713!3d38.2338933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b8e325d1816693%3A0x10804e43153854de!2sOdak%20Kurs!5e0!3m2!1str!2str!4v1739988420997!5m2!1str!2str"
+                        class="map-frame" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="map-info">
+                        <div class="flex items-start">
+                            <span class="pulse mt-1 mr-3"></span>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Ödemiş Şubesi</h4>
+                                <p class="text-sm text-gray-600">Zafer Mahallesi, Şehit Turan Emeksiz Caddesi No:12</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-divider"></div>
+
+                <!-- Kiraz Konum -->
+                <div class="map-container">
+                    <div class="map-label">
+                        <i class="fas fa-map-marker-alt mr-2"></i> Kiraz/İzmir
+                    </div>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d315.17895980783834!2d28.206686481558524!3d38.23298749026341!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b8f3dc1a6bdadd%3A0x63c9233fe67415ca!2sOdak%20Ki%C5%9Fisel%20Geli%C5%9Fim%20Kursu!5e0!3m2!1str!2str!4v1739988377762!5m2!1str!2str"
+                        class="map-frame" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="map-info">
+                        <div class="flex items-start">
+                            <span class="pulse mt-1 mr-3"></span>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Kiraz Şubesi</h4>
+                                <p class="text-sm text-gray-600">İstiklal Mahallesi, Halil İbrahim Efendi Caddesi No:18
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Çalışma Saatleri -->
+    <section class="py-8 sm:py-16 bg-orange-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-6 sm:mb-10">Çalışma Saatlerimiz</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
+                <!-- Hafta İçi -->
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-3xl sm:text-4xl text-orange-500 mb-3 sm:mb-4">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Hafta İçi</h3>
+                    <p class="text-lg sm:text-xl text-gray-600">09:00 - 18:00</p>
+                </div>
+
+                <!-- Hafta Sonu -->
+                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg text-center">
+                    <div class="text-3xl sm:text-4xl text-orange-500 mb-3 sm:mb-4">
+                        <i class="far fa-calendar-check"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-3">Hafta Sonu</h3>
+                    <p class="text-lg sm:text-xl text-gray-600">09:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Geliştirilmiş Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo ve Kısa Açıklama -->
+                <div class="col-span-1">
+                    <img src="img/logo2.jpg" alt="Odak Kurs Logo" class="h-20 w-auto mb-4">
+                    <p class="text-gray-400 mb-4">Başarıya giden yolda, tecrübeli öğretmen kadromuzla öğrencilerimizi
+                        geleceğe hazırlıyoruz</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.facebook.com/people/Odak-Kurs/pfbid024i2iVyDrx1tLxXrEeR4JxBVMnUjeePzqPCSBGw5XhtvVyEwHuioZie6De7u3ePuel/?mibextid=wwXIfr&rdid=L30kWnmv79aDpzYL&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1E8pPMqjyj%2F%3Fmibextid%3DwwXIfr"
+                            class="text-gray-400 hover:text-white social-icon"><i
+                                class="fab fa-facebook-f text-xl"></i></a>
+
+                        <a href="https://instagram.com/odak__kurs" class="text-gray-400 hover:text-white social-icon"><i
+                                class="fab fa-instagram text-xl"></i></a>
+
+                    </div>
+                </div>
+
+                <!-- Hızlı Linkler -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Hızlı Linkler</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Anasayfa</a></li>
+                        <li><a href="misyon.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Misyon &
+                                Vizyon</a></li>
+                        <li><a href="Kurslar.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Kurslar</a></li>
+                        <li><a href="index.html#announcements"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Duyurular</a></li>
+                        <li><a href="xx.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Fotoğraflar</a>
+                        </li>
+                        <li><a href="contact.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">İletişim</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kurslarımız -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Kurslarımız</h3>
+                    <ul class="space-y-2">
+                        <li><a href="lgs.html" class="text-gray-400 hover:text-white transition-colors duration-300">LGS
+                                Hazırlık</a></li>
+                        <li><a href="yks.html" class="text-gray-400 hover:text-white transition-colors duration-300">YKS
+                                Hazırlık</a></li>
+                        <li><a href="9-10-11.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">9-10-11.
+                                Sınıf Kursları</a></li>
+                        <li><a href="5-6-7.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">5-6-7.
+                                Sınıf Kursları</a></li>
+                        <li><a href="Denemekulübü.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Deneme
+                                Kulübü</a></li>
+                        <li><a href="Ogrencikoclugu.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Öğrenci
+                                Koçluğu</a></li>
+                    </ul>
+                </div>
+
+                <!-- İletişim Bilgileri -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">İletişim</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Zafer Mahallesi, Şehit Turan Emeksiz Caddesi No:10-12,
+                                Ödemiş/İzmir</span>
+                        </li>
+
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">İstiklal Mahallesi, Halil İbrahim Efendi Caddesi No:18,
+                                Kiraz/İzmir</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">+90 (232) 572 35 74</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-mobile-alt text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">+90 (554) 672 35 74</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">odakegitimltd@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2025 Odak Eğitim Kurumları. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Swiper Initialization
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenuItems = document.getElementById('mobile-menu-items');
+
+        mobileMenuButton.addEventListener('click', function () {
+            mobileMenuItems.classList.toggle('active');
+            if (mobileMenuItems.classList.contains('active')) {
+                mobileMenuButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+            } else {
+                mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+            }
+        });
+
+        // Glow Effect for Magic Button
+        const magicButton = document.getElementById('magic-button');
+        const glow = document.getElementById('glow');
+
+        if (magicButton && glow) {
+            magicButton.addEventListener('mousemove', (e) => {
+                const rect = magicButton.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                glow.style.opacity = "0.8";
+                glow.style.left = `${x}px`;
+                glow.style.top = `${y}px`;
+            });
+
+            magicButton.addEventListener('mouseleave', () => {
+                glow.style.opacity = "0";
+            });
+        }
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.style.opacity = '1';
+            } else {
+                backToTopButton.style.opacity = '0';
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Modal management
+        function showModal() {
+            document.getElementById('imageModal').style.display = 'flex';
+            document.getElementById('modalVideo').play();
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.getElementById('modalVideo').pause();
+            document.getElementById('modalVideo').currentTime = 0;
+        }
+
+        // Show modal with delay (uncomment for auto-popup)
+        // setTimeout(showModal, 3000);
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Close modal when clicking outside the content
+        document.getElementById('imageModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Mobile Öğrenci Bilgi Sistemi Dropdown Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileStudentBtn = document.getElementById('mobile-student-system-btn');
+            const mobileDropdownContent = document.getElementById('mobile-dropdown-content');
+            const mobileChevron = document.getElementById('mobile-chevron');
+
+            mobileStudentBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Dropdown'u aç/kapat
+                mobileDropdownContent.classList.toggle('active');
+
+                // Chevron ikonunu döndür
+                mobileChevron.classList.toggle('chevron-rotate');
+            });
+
+            // Dışarı tıklandığında dropdown'u kapat
+            document.addEventListener('click', function (e) {
+                if (!mobileStudentBtn.contains(e.target) && !mobileDropdownContent.contains(e.target)) {
+                    mobileDropdownContent.classList.remove('active');
+                    mobileChevron.classList.remove('chevron-rotate');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

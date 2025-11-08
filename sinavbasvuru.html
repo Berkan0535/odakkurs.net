@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınav Kayıt Formu - Odak Eğitim Kurumları</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <!-- Google Analytics (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-67E79S2WC6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-67E79S2WC6');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dancing Script font linki -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #FF7F00, #FFFFFF, #333333);
+            min-height: 100vh;
+        }
+
+        .purple-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            transform: translateY(-10px);
+        }
+
+        .purple-gradient:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #a855f7 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.4) 30%, transparent 60%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: all 0.15s ease-out;
+            opacity: 0;
+            filter: blur(8px);
+        }
+
+        .glow-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dancing Script font ile başlık */
+        h2 {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Form input styles */
+        .form-input {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+        }
+
+        .form-input:focus {
+            border-color: #FF7F00;
+            box-shadow: 0 0 0 3px rgba(255, 127, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-label {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #FF7F00 0%, #FF4500 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #FF4500 0%, #DC2626 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 127, 0, 0.4);
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 8px;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f5f9;
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .dropdown {
+            transition: all 0.9s ease;
+        }
+
+        .dropdown-content {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            transition-delay: 0s, 0s;
+        }
+
+        .dropdown:not(:hover) .dropdown-content {
+            transition-delay: 1s, 1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu-items {
+            display: none;
+            position: fixed;
+            top: 88px;
+            left: 0;
+            right: 0;
+            background-color: white;
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease-in-out;
+            z-index: 49;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu-items.active {
+            display: block;
+            height: auto;
+            max-height: calc(100vh - 88px);
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-top: 8px;
+            border-radius: 8px;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-content a {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .student-system-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-system-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .student-system-btn:hover::before {
+            left: 100%;
+        }
+
+        .student-system-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #a855f7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .chevron-rotate {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 1023px) {
+            .desktop-menu {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* Form validation styles */
+        .error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-orange-100 via-gray-100 to-gray-900">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+        <a href="index.html">
+            <img src="img/logo.png" alt="Odak Kurs Logo" class="h-14 md:h-20 w-auto">
+        </a>
+        <!-- Desktop Menu -->
+        <ul class="hidden md:flex space-x-4 lg:space-x-8 text-lg font-semibold desktop-menu">
+            <li><a href="index.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Anasayfa</a>
+            </li>
+            <li><a href="misyon.html" class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Misyon
+                    & Vizyon</a></li>
+            <li><a href="Kurslar.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Kurslar</a></li>
+            <li><a href="index.html#announcements"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Duyurular</a></li>
+            <li><a href="xx.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Fotoğraflar</a></li>
+            <li class="dropdown">
+                <a href="#" class="purple-gradient px-2 lg:px-4 py-2 transition-all duration-300 flex items-center">
+                    Öğrenci Bilgi Sistemi
+                    <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </a>
+                <div class="dropdown-content">
+                    <a href="https://odak.edesis.com/account/login" target="_blank">
+                        <i class="fas fa-graduation-cap mr-2"></i>Kiraz Ortaokul-Lise
+                    </a>
+                    <a href="https://odaksegem.edesis.com/account/login" target="_blank">
+                        <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Ortaokul
+                    </a>
+                    <a href="https://odakyks.edesis.com/account/login" target="_blank">
+                        <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Lise
+                    </a>
+                </div>
+            </li>
+            <li>
+                <a href="contact.html"
+                    class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-lg transition-all duration-300 hover:from-red-500 hover:to-orange-500 relative overflow-hidden shadow-lg"
+                    id="magic-button">
+                    İletişim
+                    <span class="glow-effect" id="glow"></span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden mobile-menu">
+            <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Items -->
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg">
+        <div id="mobile-menu-items" class="mobile-menu-items p-4">
+            <ul class="flex flex-col space-y-4 py-2">
+                <li><a href="index.html"
+                        class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Anasayfa</a>
+                </li>
+                <li><a href="misyon.html"
+                        class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Misyon &
+                        Vizyon</a></li>
+                <li><a href="Kurslar.html"
+                        class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Kurslar</a>
+                </li>
+                <li><a href="index.html#announcements"
+                        class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Duyurular</a>
+                </li>
+                <li><a href="xx.html"
+                        class="block px-4 py-2 hover:bg-orange-100 rounded-lg transition-all duration-300">Fotoğraflar</a>
+                </li>
+                <li>
+                    <div class="mobile-dropdown">
+                        <a href="#" id="mobile-student-system-btn"
+                            class="student-system-btn block px-4 py-2 rounded-lg transition-all duration-300 flex items-center justify-between">
+                            <span class="relative z-10">Öğrenci Bilgi Sistemi</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 relative z-10"
+                                id="mobile-chevron"></i>
+                        </a>
+                        <div id="mobile-dropdown-content" class="mobile-dropdown-content">
+                            <a href="https://odak.edesis.com/account/login" target="_blank"
+                                class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                                <i class="fas fa-graduation-cap mr-2"></i>Kiraz Ortaokul-Lise
+                            </a>
+                            <a href="https://odaksegem.edesis.com/account/login" target="_blank"
+                                class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                                <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Ortaokul
+                            </a>
+                            <a href="https://odakyks.edesis.com/account/login" target="_blank"
+                                class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                                <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Lise
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="contact.html"
+                        class="block px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg transition-all duration-300 text-center">İletişim</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="text-center p-6 md:p-10 mt-20 md:mt-24">
+        <h2 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4">Sınav Kayıt Formu</h2>
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Başarıya giden yolculukta sizinle birlikte olmak
+            için sınav kaydınızı oluşturun.</p>
+    </header>
+
+    <!-- Form Section -->
+    <section class="py-10 md:py-16 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <div class="form-container p-8 md:p-12">
+                <div id="success-message" class="success-message" style="display: none;">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Kaydınız başarıyla alınmıştır! En kısa sürede size dönüş yapılacaktır.
+                </div>
+
+                <form id="examRegistrationForm" action="send_mail.php" method="POST" class="space-y-6">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Öğrenci Adı Soyadı -->
+                        <div class="col-span-1">
+                            <label class="form-label">
+                                <i class="fas fa-user mr-2 text-orange-500"></i>
+                                Öğrenci Adı Soyadı <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="studentName" name="studentName"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none"
+                                placeholder="Öğrenci adı ve soyadını giriniz" required>
+                            <div class="error-message" id="studentNameError"></div>
+                        </div>
+
+                        <!-- Öğrenci Sınıf Düzeyi -->
+                        <div class="col-span-1">
+                            <label class="form-label">
+                                <i class="fas fa-graduation-cap mr-2 text-orange-500"></i>
+                                Sınıf Düzeyi <span class="text-red-500">*</span>
+                            </label>
+                            <select id="studentGrade" name="studentGrade"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none" required>
+                                <option value="">Sınıf seçiniz</option>
+                                <option value="5">5. Sınıf</option>
+                                <option value="6">6. Sınıf</option>
+                                <option value="7">7. Sınıf</option>
+                                <option value="8">8. Sınıf</option>
+                                <option value="9">9. Sınıf</option>
+                                <option value="10">10. Sınıf</option>
+                                <option value="11">11. Sınıf</option>
+                                <option value="12">12. Sınıf</option>
+                            </select>
+                            <div class="error-message" id="studentGradeError"></div>
+                        </div>
+
+                        <!-- Öğrenci Telefon -->
+                        <div class="col-span-1">
+                            <label class="form-label">
+                                <i class="fas fa-mobile-alt mr-2 text-orange-500"></i>
+                                Öğrenci Telefon <span class="text-red-500">*</span>
+                            </label>
+                            <input type="tel" id="studentPhone" name="studentPhone"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none"
+                                placeholder="5XX XXX XX XX" required>
+                            <div class="error-message" id="studentPhoneError"></div>
+                        </div>
+
+                        <!-- Öğrenci E-posta -->
+                        <div class="col-span-1">
+                            <label class="form-label">
+                                <i class="fas fa-envelope mr-2 text-orange-500"></i>
+                                Öğrenci E-posta Adresi <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" id="studentEmail" name="studentEmail"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none"
+                                placeholder="ornek@email.com" required>
+                            <div class="error-message" id="studentEmailError"></div>
+                        </div>
+
+                        <!-- Öğrenci Okul Adı -->
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="form-label">
+                                <i class="fas fa-school mr-2 text-orange-500"></i>
+                                Okul Adı <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="studentSchool" name="studentSchool"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none"
+                                placeholder="Öğrencinin okuduğu okul adını giriniz" required>
+                            <div class="error-message" id="studentSchoolError"></div>
+                        </div>
+
+                        <!-- Veli Adı Soyadı -->
+                        <div class="col-span-1">
+                            <label class="form-label">
+                                <i class="fas fa-user-tie mr-2 text-orange-500"></i>
+                                Veli Adı Soyadı <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="parentName" name="parentName"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none"
+                                placeholder="Veli adı ve soyadını giriniz" required>
+                            <div class="error-message" id="parentNameError"></div>
+                        </div>
+
+                        <!-- Veli Telefon -->
+                        <div class="col-span-1">
+                            <label class="form-label">
+                                <i class="fas fa-phone mr-2 text-orange-500"></i>
+                                Veli Telefon <span class="text-red-500">*</span>
+                            </label>
+                            <input type="tel" id="parentPhone" name="parentPhone"
+                                class="form-input w-full p-4 rounded-lg border focus:outline-none"
+                                placeholder="5XX XXX XX XX" required>
+                            <div class="error-message" id="parentPhoneError"></div>
+                        </div>
+                    </div>
+
+                    <!-- Gönder Butonu -->
+                    <div class="text-center mt-8">
+                        <button type="submit"
+                            class="submit-btn px-8 py-4 text-white font-bold text-lg rounded-lg shadow-lg relative z-10">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Kayıt Formunu Gönder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim Çağrısı -->
+    <section class="py-10 md:py-16 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 md:mb-6">Başarı Yolculuğuna Hemen Başlayın</h2>
+            <p class="text-lg md:text-xl mb-6 md:mb-8 max-w-3xl mx-auto">Sizin için hazırladığımız özel çalışma
+                programları hakkında bilgi almak için hemen bize ulaşın.</p>
+            <a href="contact.html"
+                class="bg-white text-orange-500 px-6 md:px-8 py-3 md:py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all duration-300 inline-block shadow-lg">Şimdi
+                İletişime Geçin</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo ve Kısa Açıklama -->
+                <div class="col-span-1">
+                    <img src="img/logo2.jpg" alt="Odak Kurs Logo" class="h-20 w-auto mb-4">
+                    <p class="text-gray-400 mb-4">Başarıya giden yolda, tecrübeli öğretmen kadromuzla öğrencilerimizi
+                        geleceğe hazırlıyoruz</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.facebook.com/people/Odak-Kurs/pfbid024i2iVyDrx1tLxXrEeR4JxBVMnUjeePzqPCSBGw5XhtvVyEwHuioZie6De7u3ePuel/?mibextid=wwXIfr&rdid=L30kWnmv79aDpzYL&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1E8pPMqjyj%2F%3Fmibextid%3DwwXIfr"
+                            class="text-gray-400 hover:text-white social-icon"><i
+                                class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="https://instagram.com/odak__kurs" class="text-gray-400 hover:text-white social-icon"><i
+                                class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+
+                <!-- Hızlı Linkler -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Hızlı Linkler</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Anasayfa</a></li>
+                        <li><a href="misyon.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Misyon &
+                                Vizyon</a></li>
+                        <li><a href="Kurslar.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Kurslar</a></li>
+                        <li><a href="index.html#announcements"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Duyurular</a></li>
+                        <li><a href="xx.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Fotoğraflar</a>
+                        </li>
+                        <li><a href="contact.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">İletişim</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kurslarımız -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Kurslarımız</h3>
+                    <ul class="space-y-2">
+                        <li><a href="lgs.html" class="text-gray-400 hover:text-white transition-colors duration-300">LGS
+                                Hazırlık</a></li>
+                        <li><a href="yks.html" class="text-gray-400 hover:text-white transition-colors duration-300">YKS
+                                Hazırlık</a></li>
+                        <li><a href="9-10-11.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">9-10-11.
+                                Sınıf Kursları</a></li>
+                        <li><a href="5-6-7.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">5-6-7.
+                                Sınıf Kursları</a></li>
+                        <li><a href="DenemekulÃ¼bÃ¼.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Deneme
+                                Kulübü</a></li>
+                        <li><a href="Ogrencikoclugu.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Öğrenci
+                                Koçluğu</a></li>
+                    </ul>
+                </div>
+
+                <!-- İletişim Bilgileri -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">İletişim</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Zafer Mahallesi, Şehit Turan Emeksiz Caddesi No:10-12,
+                                Ödemiş/İzmir</span>
+                        </li>
+
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">İstiklal Mahallesi, Halil İbrahim Efendi Caddesi No:18,
+                                Kiraz/İzmir</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">+90 (232) 572 35 74</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-mobile-alt text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">+90 (554) 672 35 74</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">odakegitimltd@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2025 Odak Eğitim Kurumları. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu functionality
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenuItems = document.getElementById('mobile-menu-items');
+            const mobileStudentBtn = document.getElementById('mobile-student-system-btn');
+            const mobileDropdownContent = document.getElementById('mobile-dropdown-content');
+            const mobileChevron = document.getElementById('mobile-chevron');
+
+            // Mobile menu toggle
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenuItems.classList.toggle('active');
+                if (mobileMenuItems.classList.contains('active')) {
+                    mobileMenuButton.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+                } else {
+                    mobileMenuButton.innerHTML = '<i class="fas fa-bars text-2xl"></i>';
+                }
+            });
+
+            // Mobile dropdown toggle
+            if (mobileStudentBtn && mobileDropdownContent && mobileChevron) {
+                mobileStudentBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    mobileDropdownContent.classList.toggle('active');
+                    mobileChevron.classList.toggle('chevron-rotate');
+                });
+            }
+
+            // Glow Effect for Magic Button
+            const magicButton = document.getElementById('magic-button');
+            const glow = document.getElementById('glow');
+
+            if (magicButton && glow) {
+                magicButton.addEventListener('mousemove', (e) => {
+                    const rect = magicButton.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    glow.style.opacity = "0.8";
+                    glow.style.left = `${x}px`;
+                    glow.style.top = `${y}px`;
+                });
+
+                magicButton.addEventListener('mouseleave', () => {
+                    glow.style.opacity = "0";
+                });
+            }
+
+            // Form validation and submission
+            const form = document.getElementById('examRegistrationForm');
+            const successMessage = document.getElementById('success-message');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Clear previous error messages
+                clearErrors();
+
+                let isValid = true;
+
+                // Validate all fields
+                const fields = [
+                    { id: 'studentName', message: 'Öğrenci adı soyadı gereklidir.' },
+                    { id: 'studentGrade', message: 'Sınıf düzeyi seçilmelidir.' },
+                    { id: 'studentPhone', message: 'Öğrenci telefon numarası gereklidir.' },
+                    { id: 'studentEmail', message: 'Öğrenci e-posta adresi gereklidir.' },
+                    { id: 'studentSchool', message: 'Okul adı gereklidir.' },
+                    { id: 'parentName', message: 'Veli adı soyadı gereklidir.' },
+                    { id: 'parentPhone', message: 'Veli telefon numarası gereklidir.' }
+                ];
+
+                fields.forEach(field => {
+                    const element = document.getElementById(field.id);
+                    if (!element.value.trim()) {
+                        showError(field.id, field.message);
+                        isValid = false;
+                    }
+                });
+
+                // Email validation
+                const email = document.getElementById('studentEmail').value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email && !emailRegex.test(email)) {
+                    showError('studentEmail', 'Geçerli bir e-posta adresi giriniz.');
+                    isValid = false;
+                }
+
+                // Phone validation
+                const phoneFields = ['studentPhone', 'parentPhone'];
+                phoneFields.forEach(fieldId => {
+                    const phone = document.getElementById(fieldId).value;
+                    const phoneRegex = /^[0-9]{10}$/;
+                    if (phone && !phoneRegex.test(phone.replace(/\s/g, ''))) {
+                        showError(fieldId, 'Geçerli bir telefon numarası giriniz (10 haneli).');
+                        isValid = false;
+                    }
+                });
+
+                if (isValid) {
+                    // Simulate form submission
+                    setTimeout(() => {
+                        successMessage.style.display = 'block';
+                        form.reset();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 500);
+                }
+            });
+
+            // Phone number formatting
+            const phoneInputs = document.querySelectorAll('#studentPhone, #parentPhone');
+            phoneInputs.forEach(input => {
+                input.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 10) value = value.substring(0, 10);
+
+                    if (value.length >= 3) {
+                        value = value.substring(0, 3) + ' ' + value.substring(3);
+                    }
+                    if (value.length >= 7) {
+                        value = value.substring(0, 7) + ' ' + value.substring(7);
+                    }
+                    if (value.length >= 10) {
+                        value = value.substring(0, 10) + ' ' + value.substring(10);
+                    }
+
+                    e.target.value = value;
+                });
+            });
+
+            function showError(fieldId, message) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(fieldId + 'Error');
+
+                field.classList.add('error');
+                if (errorDiv) {
+                    errorDiv.textContent = message;
+                }
+            }
+
+            function clearErrors() {
+                const fields = document.querySelectorAll('.form-input');
+                const errors = document.querySelectorAll('.error-message');
+
+                fields.forEach(field => field.classList.remove('error'));
+                errors.forEach(error => error.textContent = '');
+            }
+
+            // Remove error state when user starts typing
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    this.classList.remove('error');
+                    const errorDiv = document.getElementById(this.id + 'Error');
+                    if (errorDiv) {
+                        errorDiv.textContent = '';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

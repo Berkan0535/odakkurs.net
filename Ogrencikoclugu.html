@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Koçluğu - Odak Eğitim Kurumları</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dancing Script font linki -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #FF7F00, #FFFFFF, #333333);
+            min-height: 100vh;
+        }
+
+        .purple-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            transform: translateY(-10px);
+        }
+
+        .purple-gradient:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #a855f7 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Dropdown Menu Stili - Desktop */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 8px;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f5f9;
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        /* Hover durumu - 1 saniye gecikme ile */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Mouse çıktığında 1 saniye bekle */
+        .dropdown {
+            transition: all 0.9s ease;
+        }
+
+        .dropdown-content {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            transition-delay: 0s, 0s;
+            /* Açılırken gecikme yok */
+        }
+
+        .dropdown:not(:hover) .dropdown-content {
+            transition-delay: 1s, 1s;
+            /* Kapanırken 1 saniye gecikme */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 4;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Dropdown Stili */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin-top: 8px;
+            border-radius: 8px;
+        }
+
+        .mobile-dropdown-content.active {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        .mobile-dropdown-content a {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Student System Button */
+        .student-system-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .student-system-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .student-system-btn:hover::before {
+            left: 100%;
+        }
+
+        .student-system-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #a855f7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Chevron Rotation */
+        .chevron-rotate {
+            transform: rotate(180deg);
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 15%, rgba(255, 255, 255, 0.4) 30%, transparent 60%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: all 0.15s ease-out;
+            opacity: 0;
+            filter: blur(8px);
+        }
+
+        .glow-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dancing Script font ile başlık */
+        h2 {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Program kartı efekt */
+        .program-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid transparent;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #FF7F00;
+        }
+
+        /* Başarı hikayesi kartları */
+        .success-story {
+            transition: all 0.3s ease;
+        }
+
+        .success-story:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* SSS akordiyon */
+        .accordion-button {
+            transition: all 0.3s ease;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+        }
+
+        /* Mobil menü */
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .mobile-menu-content {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 49;
+            }
+
+            .mobile-menu-content.show {
+                display: block;
+            }
+
+            .mobile-menu-content ul {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #FF7F00;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-content {
+            position: relative;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            left: 55%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            left: 0;
+        }
+
+        .timeline-dot {
+            width: 25px;
+            height: 25px;
+            background-color: #FF7F00;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 31px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                left: 60px !important;
+            }
+
+            .timeline-dot {
+                left: 31px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-orange-100 via-gray-100 to-gray-900">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50">
+        <a href="index.html">
+            <img src="img/logo.png" alt="Odak Kurs Logo" class="h-14 md:h-20 w-auto">
+        </a>
+        <!-- Desktop Menu -->
+        <ul class="desktop-menu hidden md:flex space-x-4 lg:space-x-8 text-lg font-semibold">
+            <li><a href="index.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Anasayfa</a>
+            </li>
+            <li><a href="misyon.html" class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Misyon
+                    & Vizyon</a></li>
+            <li><a href="Kurslar.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Kurslar</a></li>
+            <li><a href="index.html#announcements"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Duyurular</a></li>
+            <li><a href="xx.html"
+                    class="hover:text-orange-500 px-2 lg:px-4 py-2 transition-all duration-300">Fotoğraflar</a></li>
+            <li class="dropdown">
+                <a href="#" class="purple-gradient px-2 lg:px-4 py-2 transition-all duration-300 flex items-center">
+                    Öğrenci Bilgi Sistemi
+                    <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                </a>
+                <div class="dropdown-content">
+                    <a href="https://odak.edesis.com/account/login" target="_blank">
+                        <i class="fas fa-graduation-cap mr-2"></i>Kiraz Ortaokul-Lise
+                    </a>
+                    <a href="https://odaksegem.edesis.com/account/login" target="_blank">
+                        <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Ortaokul
+                    </a>
+                    <a href="https://odakyks.edesis.com/account/login" target="_blank">
+                        <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Lise
+                    </a>
+                </div>
+            </li>
+            <li>
+                <a href="contact.html"
+                    class="bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-lg transition-all duration-300 hover:from-red-500 hover:to-orange-500 relative overflow-hidden shadow-lg"
+                    id="magic-button">
+                    İletişim
+                    <span class="glow-effect" id="glow"></span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Mobile Menu Button -->
+        <div class="mobile-menu">
+            <button id="mobile-menu-button" class="text-gray-800 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+
+            <!-- Mobile Menu Content -->
+            <div id="mobile-menu-content" class="mobile-menu-content">
+                <ul class="text-lg font-semibold">
+                    <li><a href="index.html"
+                            class="block hover:text-orange-500 py-2 transition-all duration-300">Anasayfa</a>
+                    </li>
+                    <li><a href="misyon.html"
+                            class="block hover:text-orange-500 py-2 transition-all duration-300">Misyon & Vizyon</a>
+                    </li>
+                    <li><a href="Kurslar.html"
+                            class="block hover:text-orange-500 py-2 transition-all duration-300">Kurslar</a></li>
+                    <li><a href="index.html#announcements"
+                            class="block hover:text-orange-500 py-2 transition-all duration-300">Duyurular</a></li>
+                    <li><a href="xx.html"
+                            class="block hover:text-orange-500 py-2 transition-all duration-300">Fotoğraflar</a></li>
+                    <li>
+                        <div class="mobile-dropdown">
+                            <a href="#" id="mobile-student-system-btn"
+                                class="student-system-btn block px-4 py-2 rounded-lg transition-all duration-300 flex items-center justify-between">
+                                <span class="relative z-10">Öğrenci Bilgi Sistemi</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 relative z-10"
+                                    id="mobile-chevron"></i>
+                            </a>
+                            <div id="mobile-dropdown-content" class="mobile-dropdown-content">
+                                <a href="https://odak.edesis.com/account/login" target="_blank"
+                                    class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                                    <i class="fas fa-graduation-cap mr-2"></i>Kiraz Ortaokul-Lise
+                                </a>
+                                <a href="https://odaksegem.edesis.com/account/login" target="_blank"
+                                    class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                                    <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Ortaokul
+                                </a>
+                                <a href="https://odakyks.edesis.com/account/login" target="_blank"
+                                    class="block px-4 py-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all duration-300">
+                                    <i class="fas fa-graduation-cap mr-2"></i>Ödemiş Lise
+                                </a>
+                    <li><a href="contact.html"
+                            class="block px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg transition-all duration-300 text-center">İletişim</a>
+                    </li>
+            </div>
+        </div>
+        </li>
+        </ul>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+        class="relative pt-24 md:pt-32 pb-16 md:pb-20 bg-gradient-to-r from-orange-600 to-red-600 text-white overflow-hidden">
+        <div class="container mx-auto px-4 md:px-8 relative z-10">
+            <div class="grid grid-cols-1 gap-8 items-center text-center">
+                <div class="mx-auto">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Öğrenci Koçluğu</h1>
+                    <p class="text-lg md:text-xl opacity-90 mb-8">Akademik başarı ve kişisel gelişim için profesyonel
+                        koçluk desteği. Odak Eğitim Kurumları farkıyla, potansiyelinizi keşfedin ve hedeflerinize
+                        ulaşın.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Decorative circles -->
+    <div
+        class="absolute top-0 right-0 w-64 h-64 bg-orange-400 rounded-full opacity-20 transform translate-x-1/3 -translate-y-1/3">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 w-96 h-96 bg-red-400 rounded-full opacity-20 transform -translate-x-1/3 translate-y-1/3">
+    </div>
+    </header>
+
+    <!-- Neden Biz Section -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Neden Odak Öğrenci Koçluğu?</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Öğrenci koçluğu, akademik başarının yanında kişisel gelişimi
+                    de destekleyen bütünsel bir yaklaşımdır. Odak Eğitim Kurumları olarak sizlere bu yolda profesyonel
+                    rehberlik sunuyoruz.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Özellik 1 -->
+                <div
+                    class="bg-gray-50 p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="text-4xl md:text-5xl text-orange-500 mb-4 flex justify-center">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Kişiye Özel Yaklaşım</h3>
+                    <p class="text-gray-600">Her öğrencinin bireysel öğrenme stiline, ihtiyaçlarına ve hedeflerine göre
+                        tasarlanmış kişiselleştirilmiş koçluk programları.</p>
+                </div>
+
+                <!-- Özellik 2 -->
+                <div
+                    class="bg-gray-50 p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="text-4xl md:text-5xl text-orange-500 mb-4 flex justify-center">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Zaman ve Stres Yönetimi</h3>
+                    <p class="text-gray-600">Etkili zaman yönetimi teknikleri, verimli çalışma stratejileri ve sınav
+                        kaygısıyla başa çıkma yöntemleri konusunda profesyonel destek.</p>
+                </div>
+
+                <!-- Özellik 3 -->
+                <div
+                    class="bg-gray-50 p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="text-4xl md:text-5xl text-orange-500 mb-4 flex justify-center">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Sürekli Gelişim Takibi</h3>
+                    <p class="text-gray-600">Düzenli ilerleme raporları, hedef odaklı planlamalar ve performans
+                        değerlendirmeleriyle sürekli gelişim ve motivasyon desteği.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programlarımız Section -->
+    <section id="programlar" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Öğrenci Koçluğu Programlarımız</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Farklı yaş grupları ve ihtiyaçlara yönelik çeşitli koçluk
+                    programlarımızla her öğrenciye uygun bir destek sunuyoruz.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Program 1 -->
+                <div class="bg-white rounded-lg overflow-hidden program-card">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4">
+                        <h3 class="text-xl font-bold">İlköğretim Koçluğu</h3>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Temel öğrenme alışkanlıklarının geliştirilmesi</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Okul-aile iş birliği ve takibi</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Dikkat ve konsantrasyon geliştirme çalışmaları</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>LGS'ye hazırlık için temel beceri geliştirme</span>
+                            </li>
+                        </ul>
+                        <a href="contact.html"
+                            class="block text-center bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-red-500 hover:to-orange-500 transition-all duration-300">Detaylı
+                            Bilgi</a>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="bg-white rounded-lg overflow-hidden program-card">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4">
+                        <h3 class="text-xl font-bold">Lise Koçluğu</h3>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Etkili ders çalışma teknikleri ve zaman yönetimi</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>YKS hedefine yönelik bireysel çalışma planı</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Sınav kaygısı ve stres yönetimi</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Kariyer planlaması ve üniversite tercihi</span>
+                            </li>
+                        </ul>
+                        <a href="contact.html"
+                            class="block text-center bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-red-500 hover:to-orange-500 transition-all duration-300">Detaylı
+                            Bilgi</a>
+                    </div>
+                </div>
+
+                <!-- Program 3 -->
+                <div class="bg-white rounded-lg overflow-hidden program-card">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4">
+                        <h3 class="text-xl font-bold">Özel İhtiyaç Koçluğu</h3>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Öğrenme güçlüğü desteği</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Dikkat eksikliği ve odaklanma sorunları çözümü</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Motivasyon ve özgüven geliştirme</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Aile-öğrenci iletişimi desteği</span>
+                            </li>
+                        </ul>
+                        <a href="contact.html"
+                            class="block text-center bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-red-500 hover:to-orange-500 transition-all duration-300">Detaylı
+                            Bilgi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Öğrenci Koçluğu Yolculuğu Timeline -->
+    <section class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Öğrenci Koçluğu Süreci</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Odak Eğitim Kurumları'nda öğrenci koçluğu süreciniz aşağıdaki
+                    adımlarla ilerleyecek.</p>
+            </div>
+
+            <div class="timeline">
+                <!-- Adım 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-500 mb-2">1. Tanışma ve Değerlendirme</h3>
+                        <p class="text-gray-600">Öğrencimizin güçlü yönlerini, gelişim alanlarını ve hedeflerini
+                            belirlemek için kapsamlı bir değerlendirme görüşmesi yapıyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Adım 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-500 mb-2">2. Kişisel Koçluk Planı</h3>
+                        <p class="text-gray-600">Değerlendirme sonuçları doğrultusunda öğrencimizin ihtiyaçlarına ve
+                            hedeflerine özel bir koçluk planı hazırlıyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Adım 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-500 mb-2">3. Düzenli Koçluk Seansları</h3>
+                        <p class="text-gray-600">Haftalık veya iki haftalık periyotlarla düzenli koçluk seansları
+                            gerçekleştirerek, hedeflere ulaşma yolunda ilerleme kaydediyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Adım 4 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-500 mb-2">4. İlerleme Değerlendirmesi</h3>
+                        <p class="text-gray-600">Aylık periyotlarla detaylı ilerleme raporları hazırlayarak, hedeflere
+                            ulaşma düzeyini ölçüyor ve gerekirse planı revize ediyoruz.</p>
+                    </div>
+                </div>
+
+                <!-- Adım 5 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-orange-500 mb-2">5. Aile Geri Bildirimi</h3>
+                        <p class="text-gray-600">Öğrencinin gelişimi hakkında ailelere düzenli geri bildirimler vererek,
+                            okul-aile-koç iş birliğiyle başarı potansiyelini en üst düzeye çıkarıyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Koçluk Yaklaşımımız -->
+    <section class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Koçluk Yaklaşımımız</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Öğrenci koçluğu programımız, akademik başarının yanında
+                    sosyal-duygusal gelişimi de destekleyen bütünsel bir yaklaşım sunmaktadır.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                    <h3 class="text-2xl font-bold text-orange-500 mb-4">Beceri Geliştirme</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Etkili not alma ve aktif dinleme teknikleri</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Hızlı okuma ve anlama stratejileri</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Hafıza teknikleri ve bilgi organizasyonu</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Problem çözme ve analitik düşünme becerileri</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                    <h3 class="text-2xl font-bold text-orange-500 mb-4">Kişisel Gelişim</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Öz disiplin ve motivasyon geliştirme</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Duygusal zeka ve empati becerileri</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Hedef belirleme ve planlama yetkinliği</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-arrow-circle-right text-orange-500 mt-1 mr-2"></i>
+                            <span class="text-gray-700">Özgüven ve olumlu benlik algısı geliştirme</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Geliştirilmiş Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo ve Kısa Açıklama -->
+                <div class="col-span-1">
+                    <img src="img/logo2.jpg" alt="Odak Kurs Logo" class="h-20 w-auto mb-4">
+                    <p class="text-gray-400 mb-4">Başarıya giden yolda, tecrübeli öğretmen kadromuzla öğrencilerimizi
+                        geleceğe hazırlıyoruz</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.facebook.com/people/Odak-Kurs/pfbid024i2iVyDrx1tLxXrEeR4JxBVMnUjeePzqPCSBGw5XhtvVyEwHuioZie6De7u3ePuel/?mibextid=wwXIfr&rdid=L30kWnmv79aDpzYL&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1E8pPMqjyj%2F%3Fmibextid%3DwwXIfr"
+                            class="text-gray-400 hover:text-white social-icon"><i
+                                class="fab fa-facebook-f text-xl"></i></a>
+
+                        <a href="https://instagram.com/odak__kurs" class="text-gray-400 hover:text-white social-icon"><i
+                                class="fab fa-instagram text-xl"></i></a>
+
+                    </div>
+                </div>
+
+                <!-- Hızlı Linkler -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Hızlı Linkler</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Anasayfa</a></li>
+                        <li><a href="misyon.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Misyon &
+                                Vizyon</a></li>
+                        <li><a href="Kurslar.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Kurslar</a></li>
+                        <li><a href="index.html#announcements"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Duyurular</a></li>
+                        <li><a href="xx.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Fotoğraflar</a>
+                        </li>
+                        <li><a href="contact.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">İletişim</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kurslarımız -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Kurslarımız</h3>
+                    <ul class="space-y-2">
+                        <li><a href="lgs.html" class="text-gray-400 hover:text-white transition-colors duration-300">LGS
+                                Hazırlık</a></li>
+                        <li><a href="yks.html" class="text-gray-400 hover:text-white transition-colors duration-300">YKS
+                                Hazırlık</a></li>
+                        <li><a href="9-10-11.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">9-10-11.
+                                Sınıf Kursları</a></li>
+                        <li><a href="5-6-7.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">5-6-7.
+                                Sınıf Kursları</a></li>
+                        <li><a href="Denemekulübü.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Deneme
+                                Kulübü</a></li>
+                        <li><a href="Ogrencikoclugu.html"
+                                class="text-gray-400 hover:text-white transition-colors duration-300">Öğrenci
+                                Koçluğu</a></li>
+                    </ul>
+                </div>
+
+                <!-- İletişim Bilgileri -->
+                <div class="col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b border-gray-700 pb-2">İletişim</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Zafer Mahallesi, Şehit Turan Emeksiz Caddesi No:10-12,
+                                Ödemiş/İzmir</span>
+                        </li>
+
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">İstiklal Mahallesi, Halil İbrahim Efendi Caddesi No:18,
+                                Kiraz/İzmir</span>
+                        </li>
+
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">+90 (232) 572 35 74</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-mobile-alt text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">+90 (554) 672 35 74</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-orange-500 mr-3"></i>
+                            <span class="text-gray-400">odakegitimltd@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2025 Odak Eğitim Kurumları. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery için gerekli -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Fancybox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+    <script>
+        // FancyBox Ayarları
+        $(document).ready(function () {
+            $("[data-fancybox]").fancybox({
+                // Temel ayarlar
+                loop: true,
+                margin: [44, 0],
+                gutter: 50,
+                keyboard: true,
+                animationEffect: "fade",
+                animationDuration: 300,
+                transitionEffect: "slide",
+                transitionDuration: 300,
+
+                // Görüntüleyici ayarları
+                buttons: [
+                    "zoom",
+                    "slideShow",
+                    "fullScreen",
+                    "download",
+                    "thumbs",
+                    "close"
+                ],
+
+                // Özel buton şablonları
+                btnTpl: {
+                    // İleri butonu
+                    next: '<button data-fancybox-next class="fancybox-button fancybox-button--next" title="{{NEXT}}">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
+                        '<path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>' +
+                        '</svg>' +
+                        '</button>',
+
+                    // Geri butonu
+                    prev: '<button data-fancybox-prev class="fancybox-button fancybox-button--prev" title="{{PREV}}">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
+                        '<path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>' +
+                        '</svg>' +
+                        '</button>',
+
+                    // Kapatma butonu
+                    close: '<button data-fancybox-close class="fancybox-button fancybox-button--close" title="{{CLOSE}}">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
+                        '<path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"/>' +
+                        '</svg>' +
+                        '</button>',
+
+                    // Tam ekran butonu    
+                    fullScreen: '<button data-fancybox-fullscreen class="fancybox-button fancybox-button--fullscreen" title="{{FULL_SCREEN}}">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
+                        '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>' +
+                        '</svg>' +
+                        '</button>',
+
+                    // Yakınlaştırma butonu
+                    zoom: '<button data-fancybox-zoom class="fancybox-button fancybox-button--zoom" title="{{ZOOM}}">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' +
+                        '<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>' +
+                        '<path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"/>' +
+                        '</svg>' +
+                        '</button>'
+                },
+
+                // Touch/kaydırma desteği
+                touch: {
+                    vertical: true,  // Dikey kaydırma
+                    momentum: true   // Atalet
+                },
+
+                // Kapatma kısayolları
+                closeExisting: true,
+                clickSlide: "close",
+                clickOutside: "close",
+
+                // İlerleme göstergesi
+                infobar: true,
+
+                // Alt yazı
+                caption: function (instance, item) {
+                    return $(this).attr('data-caption') || '';
+                },
+
+                // Özelleştirilmiş CSS
+                baseClass: "fancybox-custom-layout",
+
+                // Mobil görünüm için özel ayarlar
+                mobile: {
+                    preventCaptionOverlap: false,
+                    idleTime: 3,
+                    clickSlide: "close"
+                },
+
+                // Açılış efekti
+                afterShow: function (instance, current) {
+                    // Butonlara efekt eklemek için
+                    $('.fancybox-button').css('transform', 'scale(1)');
+                },
+
+                // Kapatma efekti
+                beforeClose: function (instance, current) {
+                    // Butonlara efekt eklemek için
+                    $('.fancybox-button').css('transform', 'scale(0.9)');
+                }
+            });
+        });
+
+        // Galeri filtreleme
+        document.addEventListener('DOMContentLoaded', function () {
+            const filters = document.querySelectorAll('.gallery-filter');
+            const items = document.querySelectorAll('.gallery-item');
+
+            filters.forEach(filter => {
+                filter.addEventListener('click', function () {
+                    // Aktif filtreyi değiştir
+                    filters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filterValue = this.getAttribute('data-filter');
+
+                    // Öğeleri filtrele
+                    items.forEach(item => {
+                        const category = item.getAttribute('data-category');
+
+                        if (filterValue === 'all' || filterValue === category) {
+                            item.style.display = 'block';
+                            setTimeout(() => {
+                                item.style.opacity = '1';
+                                item.style.transform = 'scale(1)';
+                            }, 100);
+                        } else {
+                            item.style.opacity = '0';
+                            item.style.transform = 'scale(0.8)';
+                            setTimeout(() => {
+                                item.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+        });
+
+        // Işıltı efekti
+        const button = document.getElementById("magic-button");
+        const glow = document.getElementById("glow");
+
+        button.addEventListener("mousemove", (e) => {
+            const { left, top } = button.getBoundingClientRect();
+            const x = e.clientX - left;
+            const y = e.clientY - top;
+            glow.style.left = `${x}px`;
+            glow.style.top = `${y}px`;
+            glow.style.opacity = "1";
+        });
+
+        button.addEventListener("mouseleave", () => {
+            glow.style.opacity = "0";
+        });
+        // Mobile Öğrenci Bilgi Sistemi Dropdown Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileStudentBtn = document.getElementById('mobile-student-system-btn');
+            const mobileDropdownContent = document.getElementById('mobile-dropdown-content');
+            const mobileChevron = document.getElementById('mobile-chevron');
+
+            mobileStudentBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Dropdown'u aç/kapat
+                mobileDropdownContent.classList.toggle('active');
+
+                // Chevron ikonunu döndür
+                mobileChevron.classList.toggle('chevron-rotate');
+            });
+
+            // Dışarı tıklandığında dropdown'u kapat
+            document.addEventListener('click', function (e) {
+                if (!mobileStudentBtn.contains(e.target) && !mobileDropdownContent.contains(e.target)) {
+                    mobileDropdownContent.classList.remove('active');
+                    mobileChevron.classList.remove('chevron-rotate');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
